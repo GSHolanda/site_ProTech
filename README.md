@@ -105,7 +105,7 @@ Para mudar a imagem de compartilhamento junto, troque `--accent` também em
 Tudo o que o cliente entregar vai para [`assets-cliente/`](assets-cliente/README.md):
 
 - **Logo**: `assets-cliente/logo.svg`. Quando o arquivo existir, o site usa ele no header
-  e no rodapé automaticamente. Hoje há um placeholder (monograma "P" em círculo preto).
+  e no rodapé automaticamente. Hoje o monograma é um redesenho feito a partir das capturas do Instagram.
 - **Fotos**: `assets-cliente/fotos/`. Escreva só o nome do arquivo no `site.ts`, por exemplo
   `hero.foto`, `sobre.foto` ou `casos.itens[...].antes`. O site gera versões WebP em
   vários tamanhos e carrega as fotos abaixo da primeira tela só quando o visitante chega nelas.

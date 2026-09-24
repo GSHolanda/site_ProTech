@@ -31,7 +31,7 @@ Quase tudo se resolve editando [`src/data/site.ts`](src/data/site.ts).
 
 - [ ] **Cor de acento: azul `#1E4FD8` (padrão) ou amarelo `#F5B800`.** Troca em um só lugar.
   → começo de `src/styles/global.css` (ver README, "Como trocar a cor de acento")
-- [ ] **Logo em vetor** (SVG, AI ou PDF) e a fonte usada no "PRO-TECH". Hoje há um placeholder.
+- [ ] **Logo em vetor** (SVG, AI ou PDF) e a fonte usada no "PRO-TECH". Hoje o monograma foi redesenhado a partir das capturas do Instagram.
   → salvar como `assets-cliente/logo.svg`, trocar `public/favicon.svg`, rodar `npm run icones`
   e atualizar `scripts/og-image.html` e `public/og-image.png`
 

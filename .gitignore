@@ -19,3 +19,6 @@ Thumbs.db
 # deploy local
 .vercel/
 .netlify/
+
+# arquivos de trabalho locais
+review/
