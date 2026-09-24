@@ -1,13 +1,10 @@
-# Deploy na Netlify. As URLs sem ".html" (/cambio-dsg) já funcionam por padrão.
+# Site estático, sem build: a Netlify publica a pasta site/ como está.
 [build]
-  command = "npm run build"
-  publish = "dist"
-
-[build.environment]
-  NODE_VERSION = "22"
+  publish = "site"
+  command = ""
 
 [[headers]]
-  for = "/_astro/*"
+  for = "/assets/fonts/*"
   [headers.values]
     Cache-Control = "public, max-age=31536000, immutable"
 

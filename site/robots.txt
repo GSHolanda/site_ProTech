@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+
+# DEPLOY STEP: trocar pelo domínio definitivo
+Sitemap: https://protechbsb.com.br/sitemap.xml
