@@ -4,66 +4,105 @@ import { comCodigos } from "../../lib/texto";
 import { linkServico } from "../../lib/whatsapp";
 import SectionHeading from "../SectionHeading.astro";
 import Icon from "../Icon.astro";
+
+// Grupos com mais itens que isso viram acordeão no celular (fechados),
+// para a página não ficar comprida demais. No computador ficam sempre abertos.
+const LIMITE_ABERTO = 2;
 ---
 
 <section id="servicos" class="section-y bg-steel-50" aria-labelledby="servicos-titulo">
   <div class="wrap">
     <SectionHeading selo="Serviços" titulo={servicos.titulo} texto={servicos.introducao} id="servicos-titulo" />
 
-    <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+    <div class="mt-10 grid gap-4 sm:mt-12 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
       {
-        servicos.grupos.map((grupo, i) => (
-          <article
-            class="flex flex-col rounded-[3px] border border-steel-200 bg-white"
-            aria-labelledby={`grupo-${grupo.id}`}
-          >
-            <div class="border-b border-steel-200 p-6 pb-5">
-              <p class="font-mono text-xs tracking-[0.14em] text-steel-600">{String(i + 1).padStart(2, "0")}</p>
-              <h3 id={`grupo-${grupo.id}`} class="mt-1 text-[2rem]">
-                {grupo.titulo}
-              </h3>
-              <p class="mt-2 text-steel-600">{grupo.descricao}</p>
-            </div>
-
-            <ul class="flex-1 px-3 py-2">
-              {grupo.itens.map((item) => (
-                <li class="border-b border-steel-100 last:border-0">
-                  <a
-                    href={linkServico(item.mensagem ?? item.nome)}
-                    target="_blank"
-                    rel="noopener"
-                    class="group flex min-h-12 items-center justify-between gap-4 rounded-[2px] px-3 py-2.5 transition-colors hover:bg-steel-50"
-                  >
-                    <span class="font-medium text-steel-900" set:html={comCodigos(item.nome)} />
-                    <span class="flex shrink-0 items-center gap-1.5 font-display text-sm font-semibold tracking-[0.06em] text-accent-ink uppercase">
-                      <span class="hidden sm:inline" aria-hidden="true">Orçamento</span>
-                      <Icon nome="whatsapp" class="size-[1.15rem]" />
-                    </span>
-                    <span class="sr-only"> – pedir orçamento pelo WhatsApp (abre em nova aba)</span>
-                  </a>
-                </li>
-              ))}
-            </ul>
-
-            {grupo.saibaMais && (
-              <div class="border-t border-steel-200 px-6 py-4">
-                <p class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.95rem]">
-                  <span class="text-steel-600">Saiba mais:</span>
-                  {grupo.saibaMais.map((l) => (
+        servicos.grupos.map((grupo, i) => {
+          const recolhivel = grupo.itens.length > LIMITE_ABERTO;
+          const lista = (
+            <>
+              <ul class="px-3 py-2">
+                {grupo.itens.map((item) => (
+                  <li class="border-b border-steel-100 last:border-0">
                     <a
-                      href={l.href}
-                      class="inline-flex min-h-11 items-center gap-1.5 font-medium text-accent-ink underline decoration-2 underline-offset-4 hover:text-steel-900"
+                      href={linkServico(item.mensagem ?? item.nome)}
+                      target="_blank"
+                      rel="noopener"
+                      class="flex min-h-12 items-center justify-between gap-4 rounded-[2px] px-3 py-2.5 transition-colors hover:bg-steel-50"
                     >
-                      {l.rotulo}
-                      <Icon nome="seta" class="size-4" />
+                      <span class="font-medium text-steel-900" set:html={comCodigos(item.nome)} />
+                      <span class="flex shrink-0 items-center gap-1.5 font-display text-sm font-semibold tracking-[0.06em] text-accent-ink uppercase">
+                        <span class="hidden sm:inline xl:hidden" aria-hidden="true">
+                          Orçamento
+                        </span>
+                        <Icon nome="whatsapp" class="size-[1.15rem]" />
+                      </span>
+                      <span class="sr-only"> – pedir orçamento pelo WhatsApp (abre em nova aba)</span>
                     </a>
-                  ))}
-                </p>
+                  </li>
+                ))}
+              </ul>
+              {grupo.saibaMais && (
+                <div class="border-t border-steel-200 px-6 py-3">
+                  <p class="flex flex-wrap items-center gap-x-4 text-[0.95rem]">
+                    <span class="text-steel-600">Saiba mais:</span>
+                    {grupo.saibaMais.map((l) => (
+                      <a
+                        href={l.href}
+                        class="inline-flex min-h-11 items-center gap-1.5 font-medium text-accent-ink underline decoration-2 underline-offset-4 hover:text-steel-900"
+                      >
+                        {l.rotulo}
+                        <Icon nome="seta" class="size-4" />
+                      </a>
+                    ))}
+                  </p>
+                </div>
+              )}
+            </>
+          );
+
+          return (
+            <article
+              class="flex flex-col self-start rounded-[3px] border border-steel-200 bg-white md:self-stretch"
+              aria-labelledby={`grupo-${grupo.id}`}
+            >
+              <div class="border-b border-steel-200 p-5 sm:p-6 sm:pb-5">
+                <p class="font-mono text-xs tracking-[0.14em] text-steel-600">{String(i + 1).padStart(2, "0")}</p>
+                <h3 id={`grupo-${grupo.id}`} class="mt-1 text-[1.85rem] sm:text-[2rem]">
+                  {grupo.titulo}
+                </h3>
+                <p class="mt-2 text-steel-600">{grupo.descricao}</p>
               </div>
-            )}
-          </article>
-        ))
+
+              {recolhivel ? (
+                <details class="group flex-1" open data-servicos-grupo>
+                  <summary class="flex min-h-12 cursor-pointer list-none items-center justify-between gap-4 px-5 py-3 font-display text-[1.05rem] font-semibold tracking-[0.05em] text-accent-ink uppercase md:hidden [&::-webkit-details-marker]:hidden">
+                    <span class="group-open:hidden">Ver os {grupo.itens.length} serviços</span>
+                    <span class="hidden group-open:inline">Fechar a lista</span>
+                    <Icon nome="mais" class="size-5 transition-transform duration-200 group-open:rotate-45" />
+                  </summary>
+                  <div class="border-t border-steel-200 md:border-0">{lista}</div>
+                </details>
+              ) : (
+                <div class="flex-1">{lista}</div>
+              )}
+            </article>
+          );
+        })
       }
     </div>
   </div>
 </section>
+
+<!-- Fecha as listas longas no celular antes da seção aparecer na tela -->
+<script is:inline>
+  if (matchMedia("(max-width: 47.99rem)").matches)
+    document.querySelectorAll("[data-servicos-grupo]").forEach((d) => (d.open = false));
+</script>
+
+<script>
+  // Se a tela crescer (celular girado, janela redimensionada), reabre as listas:
+  // no computador o botão de abrir/fechar fica escondido.
+  matchMedia("(min-width: 48rem)").addEventListener("change", (e) => {
+    if (e.matches) document.querySelectorAll<HTMLDetailsElement>("[data-servicos-grupo]").forEach((d) => (d.open = true));
+  });
+</script>

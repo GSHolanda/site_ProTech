@@ -5,6 +5,7 @@
    ----------------------------------------------------------------------------
    O site usa preto e branco (as cores do logo) e UMA cor de acento.
    Para trocar o acento, mude só este bloco.
+   TODO: confirmar com o dono a cor de acento (azul ou amarelo).
 
    Cada acento precisa de 5 valores porque a mesma cor não funciona igual
    sobre fundo claro e sobre fundo escuro (contraste mínimo AA):

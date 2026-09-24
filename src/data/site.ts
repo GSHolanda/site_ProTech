@@ -361,6 +361,9 @@ export const comoFunciona = {
     },
   ] satisfies Passo[],
   cta: "Mandar o sintoma pelo WhatsApp",
+  // TODO: política de garantia (prazo e o que cobre). Enquanto estiver vazio,
+  // não aparece no site. Exemplo de formato: "Serviços com garantia de X meses."
+  garantia: "",
 };
 
 export const dsgDestaque = {
@@ -380,7 +383,7 @@ export const dsgDestaque = {
 
 export const diferenciais = {
   selo: "Por que a PRO-TECH",
-  titulo: "O que os clientes encontram aqui",
+  titulo: "Especialista de verdade, do diagnóstico à entrega",
   itens: [
     {
       titulo: "Diagnóstico antes da peça",
@@ -408,7 +411,7 @@ export const diferenciais = {
 
 export const avaliacoes = {
   selo: "Avaliações",
-  titulo: `${NOTA_TEXTO} no Google, com ${TOTAL_AVALIACOES} avaliações`,
+  titulo: "O que os clientes dizem",
   termosTitulo: "O que mais aparece nas avaliações",
   // Contagem de menções no Google em 24/09/2026.
   termos: [

@@ -46,15 +46,15 @@ const schemas = [
   <section class="section-y bg-steel-50" aria-labelledby="comparativo-titulo">
     <div class="wrap">
       <SectionHeading selo="Comparativo" titulo={p.comparativo.titulo} texto={p.comparativo.introducao} id="comparativo-titulo" />
-      <div class="mt-10 overflow-x-auto rounded-[3px] border border-steel-200 bg-white">
-        <table class="w-full min-w-[34rem] border-collapse text-left">
+      <div class="mt-10 overflow-hidden rounded-[3px] border border-steel-200 bg-white">
+        <table class="w-full border-collapse text-left">
           <caption class="sr-only">Comparação entre os câmbios DSG DQ200 e DQ250</caption>
           <thead>
             <tr class="border-b-2 border-steel-900">
-              <td class="w-[28%] p-4 sm:p-5"></td>
+              <td class="w-[30%] p-3 sm:w-[28%] sm:p-5"></td>
               {
                 p.comparativo.colunas.map((c) => (
-                  <th scope="col" class="p-4 font-display text-3xl font-bold sm:p-5 sm:text-4xl" set:html={comCodigos(c)} />
+                  <th scope="col" class="p-3 font-display text-2xl font-bold sm:p-5 sm:text-4xl" set:html={comCodigos(c)} />
                 ))
               }
             </tr>
@@ -63,11 +63,11 @@ const schemas = [
             {
               p.comparativo.linhas.map((linha) => (
                 <tr class="border-b border-steel-200 last:border-0">
-                  <th scope="row" class="p-4 align-top font-mono text-xs font-medium tracking-[0.12em] text-steel-600 uppercase sm:p-5">
+                  <th scope="row" class="p-3 align-top font-mono text-[0.7rem] leading-6 font-medium tracking-[0.1em] text-steel-600 uppercase sm:p-5 sm:text-xs">
                     {linha.rotulo}
                   </th>
                   {linha.valores.map((v) => (
-                    <td class="p-4 align-top text-lg sm:p-5" set:html={comCodigos(v)} />
+                    <td class="p-3 align-top sm:p-5 sm:text-lg" set:html={comCodigos(v)} />
                   ))}
                 </tr>
               ))
