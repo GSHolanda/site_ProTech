@@ -1,0 +1,211 @@
+@import "tailwindcss";
+
+/* ============================================================================
+   COR DE ACENTO
+   ----------------------------------------------------------------------------
+   O site usa preto e branco (as cores do logo) e UMA cor de acento.
+   Para trocar o acento, mude só este bloco.
+
+   Cada acento precisa de 5 valores porque a mesma cor não funciona igual
+   sobre fundo claro e sobre fundo escuro (contraste mínimo AA):
+     --accent        fundo de botões, barras e detalhes
+     --accent-hover  fundo do botão com o mouse em cima
+     --on-accent     texto e ícones SOBRE o acento
+     --accent-ink    acento usado como TEXTO em fundo claro
+     --accent-glow   acento usado como TEXTO em fundo escuro
+   ========================================================================= */
+:root {
+  /* Azul (padrão) */
+  --accent: #1e4fd8;
+  --accent-hover: #1740b3;
+  --on-accent: #ffffff;
+  --accent-ink: #1e4fd8;
+  --accent-glow: #8ea6f2;
+
+  /* Amarelo (alternativa em estudo): apague o bloco azul acima e
+     descomente as 5 linhas abaixo.
+  --accent: #f5b800;
+  --accent-hover: #ffc933;
+  --on-accent: #000000;
+  --accent-ink: #7a5a00;
+  --accent-glow: #f5b800;
+  */
+}
+
+/* ============================================================================
+   Tokens do Tailwind
+   ========================================================================= */
+@theme inline {
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-on-accent: var(--on-accent);
+  --color-accent-ink: var(--accent-ink);
+  --color-accent-glow: var(--accent-glow);
+
+  --font-display: var(--font-barlow-condensed);
+  --font-sans: var(--font-barlow);
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+@theme {
+  /* Cinzas levemente frios (não cinza puro) */
+  --color-steel-50: #f4f5f7;
+  --color-steel-100: #e9ebef;
+  --color-steel-200: #dcdfe5;
+  --color-steel-300: #c3c8d1;
+  --color-steel-400: #9aa1ac;
+  --color-steel-500: #767e8a;
+  --color-steel-600: #5a616c;
+  --color-steel-700: #3d434d;
+  --color-steel-800: #262a31;
+  --color-steel-900: #15181d;
+  --color-steel-950: #0b0d10;
+}
+
+/* ============================================================================
+   Base
+   ========================================================================= */
+@layer base {
+  html {
+    scroll-padding-top: 5rem;
+    -webkit-text-size-adjust: 100%;
+    --focus-ring: var(--accent-ink);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: #ffffff;
+    color: var(--color-steel-900);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    text-transform: uppercase;
+    line-height: 1.02;
+    letter-spacing: 0.005em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 3px solid var(--focus-ring);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background: var(--accent);
+    color: var(--on-accent);
+  }
+}
+
+/* Seções escuras: texto claro e anel de foco visível sobre o preto */
+.on-dark {
+  --focus-ring: var(--accent-glow);
+  color: #ffffff;
+}
+
+.on-light {
+  --focus-ring: var(--accent-ink);
+}
+
+/* Códigos técnicos (DQ200, 0AM, 02E) */
+.tech {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.86em;
+  letter-spacing: -0.01em;
+  text-transform: none;
+}
+
+/* Rótulo pequeno acima dos títulos */
+@utility eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.625rem;
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent-ink);
+
+  &::before {
+    content: "";
+    width: 1.5rem;
+    height: 2px;
+    background: currentColor;
+  }
+
+  .on-dark & {
+    color: var(--accent-glow);
+  }
+}
+
+/* Largura máxima e respiro lateral padrão */
+@utility wrap {
+  width: 100%;
+  max-width: 76rem;
+  margin-inline: auto;
+  padding-inline: 1rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 1.5rem;
+  }
+
+  @media (width >= 64rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Espaçamento vertical padrão das seções */
+@utility section-y {
+  padding-block: 4rem;
+
+  @media (width >= 48rem) {
+    padding-block: 6rem;
+  }
+}
+
+/* Textura de grade técnica, discreta, para seções escuras */
+@utility grid-tecnica {
+  background-image:
+    linear-gradient(to right, rgb(255 255 255 / 0.045) 1px, transparent 1px),
+    linear-gradient(to bottom, rgb(255 255 255 / 0.045) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* Respeita quem prefere menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}

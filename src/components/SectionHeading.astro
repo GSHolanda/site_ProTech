@@ -1,0 +1,20 @@
+---
+import { comCodigos } from "../lib/texto";
+
+interface Props {
+  selo?: string;
+  titulo: string;
+  /** id do título, usado em aria-labelledby da seção */
+  id?: string;
+  texto?: string;
+  class?: string;
+}
+
+const { selo, titulo, id, texto, class: classe = "" } = Astro.props;
+---
+
+<div class:list={["max-w-3xl", classe]}>
+  {selo && <p class="eyebrow mb-4">{selo}</p>}
+  <h2 id={id} class="text-[2.35rem] sm:text-5xl lg:text-[3.5rem]" set:html={comCodigos(titulo)} />
+  {texto && <p class="mt-5 max-w-2xl text-lg text-current/80" set:html={comCodigos(texto)} />}
+</div>

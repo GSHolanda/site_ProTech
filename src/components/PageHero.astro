@@ -1,0 +1,54 @@
+---
+/** Topo escuro das páginas internas, com breadcrumb e H1. */
+import { comCodigos } from "../lib/texto";
+import { linkServico } from "../lib/whatsapp";
+import Button from "./Button.astro";
+import RatingBadge from "./RatingBadge.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+  selo: string;
+  titulo: string;
+  introducao: string;
+  /** Nome curto para o breadcrumb */
+  nomeCurto: string;
+  servicoWhatsApp: string;
+  ctaWhatsApp?: string;
+  /** Âncora do botão secundário */
+  ancora?: { href: string; rotulo: string };
+}
+
+const { selo, titulo, introducao, nomeCurto, servicoWhatsApp, ctaWhatsApp = "Pedir orçamento", ancora } = Astro.props;
+---
+
+<section class="on-dark relative isolate overflow-hidden bg-black" aria-labelledby="pagina-titulo">
+  <div class="grid-tecnica absolute inset-0 -z-10 [mask-image:linear-gradient(to_bottom,black,transparent)]" aria-hidden="true"></div>
+  <div class="wrap pt-6 pb-16 sm:pb-20 lg:pb-24">
+    <nav aria-label="Você está em">
+      <ol class="flex flex-wrap items-center gap-2 text-sm text-steel-300">
+        <li><a href="/" class="inline-flex min-h-11 items-center underline underline-offset-4 hover:text-white">Início</a></li>
+        <li aria-hidden="true"><Icon nome="seta" class="size-3.5" /></li>
+        <li><span aria-current="page" class="text-white">{nomeCurto}</span></li>
+      </ol>
+    </nav>
+
+    <p class="eyebrow mt-8 mb-6 sm:mt-12">{selo}</p>
+    <h1 id="pagina-titulo" class="max-w-5xl text-[2.75rem] leading-[0.97] sm:text-6xl lg:text-[4.75rem]" set:html={comCodigos(titulo)} />
+    <p class="mt-6 max-w-2xl text-lg text-steel-200 sm:text-xl" set:html={comCodigos(introducao)} />
+
+    <RatingBadge class="mt-7" />
+
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <Button href={linkServico(servicoWhatsApp)} externo icone="whatsapp" tamanho="lg">
+        {ctaWhatsApp}
+      </Button>
+      {
+        ancora && (
+          <Button href={ancora.href} variante="contorno-claro" tamanho="lg">
+            {ancora.rotulo}
+          </Button>
+        )
+      }
+    </div>
+  </div>
+</section>

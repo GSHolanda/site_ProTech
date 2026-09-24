@@ -1,0 +1,33 @@
+---
+/** Lista numerada de etapas (como funciona, diagnóstico, processo). */
+import type { Passo } from "../data/site";
+import { comCodigos } from "../lib/texto";
+
+interface Props {
+  passos: Passo[];
+  /** Nível do título de cada etapa */
+  nivel?: "h3" | "h4";
+  class?: string;
+}
+
+const { passos, nivel = "h3", class: classe = "" } = Astro.props;
+const Titulo = nivel;
+const colunas = passos.length === 4 ? "md:grid-cols-2 xl:grid-cols-4" : "md:grid-cols-3";
+---
+
+<ol class:list={["grid gap-px overflow-hidden rounded-[3px] border border-steel-200 bg-steel-200", colunas, classe]}>
+  {
+    passos.map((passo, i) => (
+      <li class="flex flex-col bg-white p-6 sm:p-7">
+        <span class="font-display text-5xl leading-none font-bold text-accent-ink" aria-hidden="true">
+          {String(i + 1).padStart(2, "0")}
+        </span>
+        <Titulo class="mt-5 text-[1.6rem]">
+          <span class="sr-only">Etapa {i + 1}: </span>
+          {passo.titulo}
+        </Titulo>
+        <p class="mt-3 text-steel-600" set:html={comCodigos(passo.texto)} />
+      </li>
+    ))
+  }
+</ol>

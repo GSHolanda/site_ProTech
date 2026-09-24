@@ -1,0 +1,88 @@
+---
+import { site, paginasServico, paginaDsg } from "../data/site";
+import { formatarTelefone, linkWhatsApp } from "../lib/whatsapp";
+import Logo from "./Logo.astro";
+
+const ano = new Date().getFullYear();
+const e = site.endereco;
+
+const paginas = [
+  { rotulo: "Início", href: "/" },
+  { rotulo: paginaDsg.nomeCurto, href: "/cambio-dsg" },
+  ...paginasServico.filter((p) => p.publicada).map((p) => ({ rotulo: p.nomeCurto, href: `/servicos/${p.slug}` })),
+];
+
+const tituloColuna = "font-display text-sm font-semibold tracking-[0.14em] text-steel-400 uppercase";
+const link = "inline-flex min-h-11 items-center text-steel-200 hover:text-white hover:underline underline-offset-4";
+---
+
+<footer class="on-dark border-t border-white/10 bg-steel-950 pt-14 pb-28 text-steel-200 sm:pb-16">
+  <div class="wrap grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+    <div>
+      <Logo tamanho={44} contorno class="text-white" />
+      <p class="mt-4 max-w-xs text-steel-300">{site.slogan} no Guará, Brasília-DF.</p>
+    </div>
+
+    <div>
+      <h2 class={tituloColuna}>Contato</h2>
+      <ul class="mt-3">
+        {
+          [site.whatsapp.principal, site.whatsapp.secundario].map((n) => (
+            <li>
+              <a href={linkWhatsApp(site.mensagens.padrao, n)} target="_blank" rel="noopener" class={link}>
+                WhatsApp {formatarTelefone(n)}
+                <span class="sr-only"> (abre em nova aba)</span>
+              </a>
+            </li>
+          ))
+        }
+        <li>
+          <a href={site.instagram.url} target="_blank" rel="noopener" class={link}>
+            Instagram {site.instagram.usuario}
+            <span class="sr-only"> (abre em nova aba)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div>
+      <h2 class={tituloColuna}>Endereço e horário</h2>
+      <address class="mt-4 not-italic">
+        {e.logradouro}<br />
+        {e.bairro}, {e.cidade}-{e.uf}<br />
+        CEP {e.cep}
+      </address>
+      <p class="mt-3">{site.horario.texto}</p>
+    </div>
+
+    <div>
+      <h2 class={tituloColuna}>Páginas</h2>
+      <ul class="mt-3">
+        {
+          paginas.map((p) => (
+            <li>
+              <a href={p.href} class={link}>
+                {p.rotulo}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+
+  <div class="wrap mt-12">
+    <div class="flex flex-col gap-2 border-t border-white/10 pt-6 text-sm text-steel-400 sm:flex-row sm:justify-between">
+      <p>© {ano} {site.nomeCompleto}. Todos os direitos reservados.</p>
+      {
+        (site.legal.razaoSocial || site.legal.cnpj) && (
+          <p>
+            {site.legal.razaoSocial}
+            {site.legal.razaoSocial && site.legal.cnpj && " · "}
+            {site.legal.cnpj && `CNPJ ${site.legal.cnpj}`}
+          </p>
+        )
+      }
+    </div>
+  </div>
+</footer>

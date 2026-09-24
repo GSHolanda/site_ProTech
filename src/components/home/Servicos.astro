@@ -1,0 +1,69 @@
+---
+import { servicos } from "../../data/site";
+import { comCodigos } from "../../lib/texto";
+import { linkServico } from "../../lib/whatsapp";
+import SectionHeading from "../SectionHeading.astro";
+import Icon from "../Icon.astro";
+---
+
+<section id="servicos" class="section-y bg-steel-50" aria-labelledby="servicos-titulo">
+  <div class="wrap">
+    <SectionHeading selo="Serviços" titulo={servicos.titulo} texto={servicos.introducao} id="servicos-titulo" />
+
+    <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+      {
+        servicos.grupos.map((grupo, i) => (
+          <article
+            class="flex flex-col rounded-[3px] border border-steel-200 bg-white"
+            aria-labelledby={`grupo-${grupo.id}`}
+          >
+            <div class="border-b border-steel-200 p-6 pb-5">
+              <p class="font-mono text-xs tracking-[0.14em] text-steel-600">{String(i + 1).padStart(2, "0")}</p>
+              <h3 id={`grupo-${grupo.id}`} class="mt-1 text-[2rem]">
+                {grupo.titulo}
+              </h3>
+              <p class="mt-2 text-steel-600">{grupo.descricao}</p>
+            </div>
+
+            <ul class="flex-1 px-3 py-2">
+              {grupo.itens.map((item) => (
+                <li class="border-b border-steel-100 last:border-0">
+                  <a
+                    href={linkServico(item.mensagem ?? item.nome)}
+                    target="_blank"
+                    rel="noopener"
+                    class="group flex min-h-12 items-center justify-between gap-4 rounded-[2px] px-3 py-2.5 transition-colors hover:bg-steel-50"
+                  >
+                    <span class="font-medium text-steel-900" set:html={comCodigos(item.nome)} />
+                    <span class="flex shrink-0 items-center gap-1.5 font-display text-sm font-semibold tracking-[0.06em] text-accent-ink uppercase">
+                      <span class="hidden sm:inline" aria-hidden="true">Orçamento</span>
+                      <Icon nome="whatsapp" class="size-[1.15rem]" />
+                    </span>
+                    <span class="sr-only"> – pedir orçamento pelo WhatsApp (abre em nova aba)</span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+
+            {grupo.saibaMais && (
+              <div class="border-t border-steel-200 px-6 py-4">
+                <p class="flex flex-wrap items-center gap-x-4 gap-y-1 text-[0.95rem]">
+                  <span class="text-steel-600">Saiba mais:</span>
+                  {grupo.saibaMais.map((l) => (
+                    <a
+                      href={l.href}
+                      class="inline-flex min-h-11 items-center gap-1.5 font-medium text-accent-ink underline decoration-2 underline-offset-4 hover:text-steel-900"
+                    >
+                      {l.rotulo}
+                      <Icon nome="seta" class="size-4" />
+                    </a>
+                  ))}
+                </p>
+              </div>
+            )}
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

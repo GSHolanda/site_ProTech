@@ -1,0 +1,86 @@
+---
+import "../styles/global.css";
+import { Font } from "astro:assets";
+import { site } from "../data/site";
+import { schemaOficina } from "../lib/schema";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import WhatsAppFloat from "../components/WhatsAppFloat.astro";
+import IconSprite from "../components/IconSprite.astro";
+
+interface Props {
+  title: string;
+  description: string;
+  /** Não indexar no Google (página 404) */
+  noindex?: boolean;
+  /** Dados estruturados extras desta página (FAQ, breadcrumb…) */
+  schemas?: object[];
+  /** Imagem de compartilhamento (caminho em public/) */
+  imagem?: string;
+}
+
+const { title, description, noindex = false, schemas = [], imagem = "/og-image.png" } = Astro.props;
+
+const caminho = Astro.url.pathname.replace(/\.html$/, "").replace(/\/index$/, "/");
+const canonical = new URL(caminho === "/" ? "/" : caminho.replace(/\/$/, ""), site.url).href;
+const imagemAbsoluta = new URL(imagem, site.url).href;
+const jsonLd = [schemaOficina(), ...schemas];
+---
+
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex ? <meta name="robots" content="noindex, follow" /> : <link rel="canonical" href={canonical} />}
+
+    <meta name="theme-color" content="#000000" />
+    <meta name="format-detection" content="telephone=no" />
+    <link rel="icon" href="/favicon.ico" sizes="32x32" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- Open Graph (WhatsApp, Facebook, Instagram) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content={site.nomeCompleto} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={imagemAbsoluta} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={`${site.nome}: ${site.slogan} em Brasília`} />
+
+    <!-- Twitter / X -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={imagemAbsoluta} />
+
+    <!-- Fontes (hospedadas no site). Pré-carrega só as usadas no topo. -->
+    <Font cssVariable="--font-barlow-condensed" preload={[{ weight: 700 }]} />
+    <Font cssVariable="--font-barlow" preload={[{ weight: 400 }]} />
+    <Font cssVariable="--font-jetbrains-mono" />
+
+    {jsonLd.map((dados) => <script type="application/ld+json" set:html={JSON.stringify(dados).replace(/</g, "\\u003c")} />)}
+  </head>
+  <body class="on-light">
+    <IconSprite />
+    <a
+      href="#conteudo"
+      class="sr-only z-[60] bg-accent px-4 py-3 font-display font-semibold tracking-wide text-on-accent uppercase focus:not-sr-only focus:fixed focus:top-2 focus:left-2"
+    >
+      Pular para o conteúdo
+    </a>
+    <Header atual={caminho} />
+    <main id="conteudo" tabindex="-1" class="outline-none">
+      <slot />
+    </main>
+    <Footer />
+    <WhatsAppFloat />
+  </body>
+</html>

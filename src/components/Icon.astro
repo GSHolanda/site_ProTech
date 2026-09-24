@@ -1,0 +1,34 @@
+---
+/**
+ * Ícone em SVG. Os desenhos ficam uma vez só na página (IconSprite.astro)
+ * e cada ícone aponta para eles com <use>, o que deixa o HTML mais leve.
+ */
+import { tracados, type NomeIcone } from "./icones";
+
+export type { NomeIcone };
+
+interface Props {
+  nome: NomeIcone;
+  class?: string;
+  /** Texto para leitor de tela. Sem ele, o ícone é decorativo. */
+  titulo?: string;
+}
+
+const { nome, class: classe = "size-5", titulo } = Astro.props;
+const tracado = nome in tracados;
+---
+
+<svg
+  class={classe}
+  viewBox="0 0 24 24"
+  fill={tracado ? "none" : "currentColor"}
+  stroke={tracado ? "currentColor" : undefined}
+  stroke-width={tracado ? 2 : undefined}
+  stroke-linecap={tracado ? "square" : undefined}
+  aria-hidden={titulo ? undefined : "true"}
+  role={titulo ? "img" : undefined}
+  aria-label={titulo}
+  focusable="false"
+>
+  <use href={`#i-${nome}`} />
+</svg>

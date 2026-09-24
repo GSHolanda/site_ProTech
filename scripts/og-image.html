@@ -1,0 +1,56 @@
+<!doctype html>
+<!--
+  Modelo da imagem de compartilhamento (public/og-image.png, 1200×630).
+  Para regenerar: abra este arquivo no navegador com a janela em 1200×630 e
+  faça uma captura, ou rode o script descrito no README.
+  TODO: trocar o monograma pelo logo oficial quando chegar.
+-->
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<style>
+  @font-face { font-family: "Barlow Condensed"; font-weight: 700; src: url("../node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-700-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Barlow Condensed"; font-weight: 600; src: url("../node_modules/@fontsource/barlow-condensed/files/barlow-condensed-latin-600-normal.woff2") format("woff2"); }
+  @font-face { font-family: "Barlow"; font-weight: 500; src: url("../node_modules/@fontsource/barlow/files/barlow-latin-500-normal.woff2") format("woff2"); }
+  @font-face { font-family: "JetBrains Mono"; font-weight: 500; src: url("../node_modules/@fontsource/jetbrains-mono/files/jetbrains-mono-latin-500-normal.woff2") format("woff2"); }
+  :root { --accent: #1e4fd8; }
+  * { margin: 0; box-sizing: border-box; }
+  html, body { width: 1200px; height: 630px; }
+  body {
+    background: #000; color: #fff; font-family: "Barlow", sans-serif; position: relative; overflow: hidden;
+    padding: 64px 72px; display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .grade {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(to right, rgb(255 255 255 / .06) 1px, transparent 1px),
+                      linear-gradient(to bottom, rgb(255 255 255 / .06) 1px, transparent 1px);
+    background-size: 48px 48px;
+    -webkit-mask-image: linear-gradient(to left, #000, transparent 75%);
+  }
+  .marca { display: flex; align-items: center; gap: 20px; position: relative; }
+  .marca span { font: 700 44px/1 "Barlow Condensed"; letter-spacing: .04em; }
+  h1 { font: 700 104px/.92 "Barlow Condensed"; text-transform: uppercase; letter-spacing: .005em; position: relative; max-width: 980px; }
+  .rodape { display: flex; align-items: center; justify-content: space-between; position: relative; }
+  .servicos { font: 600 30px/1 "Barlow Condensed"; text-transform: uppercase; letter-spacing: .06em; color: #dcdfe5; display: flex; gap: 18px; align-items: center; }
+  .servicos i { width: 9px; height: 9px; background: var(--accent); display: inline-block; }
+  .local { font: 500 18px/1 "JetBrains Mono"; letter-spacing: .14em; text-transform: uppercase; color: #c3c8d1; }
+  .barra { position: absolute; left: 0; top: 0; bottom: 0; width: 12px; background: var(--accent); }
+</style>
+</head>
+<body>
+  <div class="grade"></div>
+  <div class="barra"></div>
+  <div class="marca">
+    <svg width="84" height="84" viewBox="0 0 64 64" aria-hidden="true">
+      <circle cx="32" cy="32" r="31" fill="#000" stroke="rgb(255 255 255 / .4)" stroke-width="1.5"/>
+      <path fill="#fff" fill-rule="evenodd" d="M19.5 15h15a12 12 0 0 1 0 24h-7v10h-8Zm8 7.5h6.5a4.5 4.5 0 0 1 0 9h-6.5Z"/>
+    </svg>
+    <span>PRO-TECH</span>
+  </div>
+  <h1>Especialistas em Volkswagen e Audi</h1>
+  <div class="rodape">
+    <p class="servicos">Câmbio DSG <i></i> Motores TSI <i></i> Mecatrônica</p>
+    <p class="local">Guará · Brasília-DF</p>
+  </div>
+</body>
+</html>

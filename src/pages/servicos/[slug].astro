@@ -1,0 +1,85 @@
+---
+/**
+ * Páginas de serviço geradas a partir de `paginasServico` em src/data/site.ts.
+ * Só as marcadas com `publicada: true` são geradas.
+ */
+import type { GetStaticPaths } from "astro";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PageHero from "../../components/PageHero.astro";
+import SectionHeading from "../../components/SectionHeading.astro";
+import Sintomas from "../../components/Sintomas.astro";
+import Passos from "../../components/Passos.astro";
+import ModelosLista from "../../components/ModelosLista.astro";
+import Faq from "../../components/Faq.astro";
+import CtaContato from "../../components/CtaContato.astro";
+import { paginasServico, type PaginaServico } from "../../data/site";
+import { comCodigos } from "../../lib/texto";
+import { schemaBreadcrumb, schemaFaq, schemaServico } from "../../lib/schema";
+
+export const getStaticPaths = (() =>
+  paginasServico
+    .filter((pagina) => pagina.publicada)
+    .map((pagina) => ({ params: { slug: pagina.slug }, props: { pagina } }))) satisfies GetStaticPaths;
+
+interface Props {
+  pagina: PaginaServico;
+}
+
+const { pagina: p } = Astro.props;
+const caminho = `/servicos/${p.slug}`;
+
+const schemas = [
+  schemaServico(p.titulo, p.seo.description, caminho),
+  schemaBreadcrumb([
+    { nome: "Início", caminho: "/" },
+    { nome: p.nomeCurto, caminho },
+  ]),
+  ...(p.faq.length ? [schemaFaq(p.faq)] : []),
+];
+---
+
+<BaseLayout title={p.seo.title} description={p.seo.description} schemas={schemas}>
+  <PageHero
+    selo="Serviço · Brasília-DF"
+    titulo={p.titulo}
+    introducao={p.introducao}
+    nomeCurto={p.nomeCurto}
+    servicoWhatsApp={p.servicoWhatsApp}
+    ancora={{ href: "#sintomas", rotulo: "Ver sintomas" }}
+  />
+
+  {
+    p.secoes.map((secao, i) => (
+      <section class:list={["section-y", i % 2 === 0 ? "bg-white" : "bg-steel-50"]} aria-labelledby={`secao-${i}`}>
+        <div class="wrap grid gap-10 lg:grid-cols-[minmax(0,22rem)_1fr] lg:gap-16">
+          <SectionHeading selo="Entenda" titulo={secao.titulo} id={`secao-${i}`} />
+          <div class="max-w-3xl space-y-5 text-lg text-steel-700">
+            {secao.paragrafos.map((t) => (
+              <p set:html={comCodigos(t)} />
+            ))}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <Sintomas titulo={p.sintomas.titulo} itens={p.sintomas.itens} />
+
+  <section class="section-y bg-white" aria-labelledby="processo-titulo">
+    <div class="wrap">
+      <SectionHeading selo="Como fazemos" titulo={p.processo.titulo} id="processo-titulo" />
+      <Passos passos={p.processo.passos} class="mt-12" />
+    </div>
+  </section>
+
+  <ModelosLista
+    titulo={p.modelos.titulo}
+    itens={p.modelos.itens}
+    nota={p.modelos.nota}
+    servicoWhatsApp={p.servicoWhatsApp}
+  />
+
+  {p.faq.length > 0 && <Faq titulo="Perguntas frequentes" perguntas={p.faq} />}
+
+  <CtaContato id="orcamento-servico" selo="Orçamento" titulo="Peça seu orçamento" servico={p.servicoWhatsApp} />
+</BaseLayout>

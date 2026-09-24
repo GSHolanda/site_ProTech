@@ -1,0 +1,56 @@
+---
+import Icon, { type NomeIcone } from "./Icon.astro";
+
+interface Props {
+  href: string;
+  variante?: "primario" | "secundario" | "contorno-claro";
+  icone?: NomeIcone;
+  /** Posição do ícone */
+  iconeFim?: boolean;
+  /** Abre em nova aba (WhatsApp, Maps, Instagram, Google) */
+  externo?: boolean;
+  tamanho?: "md" | "lg";
+  class?: string;
+  "aria-label"?: string;
+}
+
+const {
+  href,
+  variante = "primario",
+  icone,
+  iconeFim = false,
+  externo = false,
+  tamanho = "md",
+  class: classe = "",
+  "aria-label": ariaLabel,
+} = Astro.props;
+
+const variantes = {
+  primario: "bg-accent text-on-accent hover:bg-accent-hover",
+  secundario: "border-2 border-steel-900 text-steel-900 hover:bg-steel-900 hover:text-white",
+  "contorno-claro": "border-2 border-white/45 text-white hover:border-white hover:bg-white hover:text-black",
+};
+
+const tamanhos = {
+  md: "min-h-12 px-5 text-[1.05rem]",
+  lg: "min-h-14 px-6 text-[1.15rem]",
+};
+---
+
+<a
+  href={href}
+  target={externo ? "_blank" : undefined}
+  rel={externo ? "noopener" : undefined}
+  aria-label={ariaLabel}
+  class:list={[
+    "inline-flex items-center justify-center gap-2.5 rounded-[3px] font-display font-semibold tracking-[0.05em] uppercase transition-colors duration-150",
+    variantes[variante],
+    tamanhos[tamanho],
+    classe,
+  ]}
+>
+  {icone && !iconeFim && <Icon nome={icone} class="size-5 shrink-0" />}
+  <span><slot /></span>
+  {icone && iconeFim && <Icon nome={icone} class="size-5 shrink-0" />}
+  {externo && !ariaLabel && <span class="sr-only"> (abre em nova aba)</span>}
+</a>
