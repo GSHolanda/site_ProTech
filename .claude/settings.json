@@ -1,0 +1,22 @@
+{
+  "extraKnownMarketplaces": {
+    "nyldn-plugins": {
+      "source": { "source": "github", "repo": "nyldn/claude-octopus" }
+    },
+    "i-have-adhd": {
+      "source": { "source": "github", "repo": "ayghri/i-have-adhd" }
+    },
+    "karpathy-skills": {
+      "source": { "source": "github", "repo": "multica-ai/andrej-karpathy-skills" }
+    },
+    "superpowers-dev": {
+      "source": { "source": "github", "repo": "obra/superpowers" }
+    }
+  },
+  "enabledPlugins": {
+    "octo@nyldn-plugins": true,
+    "i-have-adhd@i-have-adhd": true,
+    "andrej-karpathy-skills@karpathy-skills": true,
+    "superpowers@superpowers-dev": true
+  }
+}
